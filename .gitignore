@@ -1,0 +1,8 @@
+.vs/*
+playground/mono_crash.11a6748113.0.json
+*.suo
+*.user
+_ReSharper.*
+playground/bin
+playground/obj
+packages
