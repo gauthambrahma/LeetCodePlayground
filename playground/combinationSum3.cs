@@ -9,68 +9,42 @@ namespace playground
         public combinationSum3()
         {
         }
-        private IList<IList<int>> FinalResult = new List<IList<int>>();
         public IList<IList<int>> CombinationSum3(int k, int n)
         {
-            IList<int> selection = new List<int>();
-            for (int i = 1; i < n / 2; i++)
-            {
-                selection = DecomposeRecursively(n, n, k, selection, i);
-                if (selection == null)
-                {
-                    continue;
-                }
-                //result.Add(selection.OrderBy(x => x).ToList());
-                //foreach (var num in selection)
-                //{
-                //    Console.WriteLine(num);
-                //}
-                selection.Clear();
-                //Console.WriteLine("-----");
-            }
+            IList<IList<int>> FinalResult = new List<IList<int>>();
+            IList<int> result = new List<int>();
+            DecomposeRecursively(FinalResult, k, n, result, 1);
             return FinalResult;
         }
 
-        public IList<int> DecomposeRecursively(int originalNum, int number, int length, IList<int> results, int pointer)
+        public IList<int> DecomposeRecursively(IList<IList<int>> FinalResult, int k, int sum, IList<int> selections, int pointer)
         {
-
-            number = number - pointer;
-            //guard clause - no duplicates
-            if (results.Contains(number) || results.Contains(pointer))
+            if (sum < 0)
             {
                 return null;
             }
-            results.Add(pointer);
-            if (results.Count == length - 1)
-            {
-                int sumOfElements = results.Sum(x => x);
-                if (sumOfElements + number == originalNum)
-                {
-                    results.Add(number);
 
-                    return results.OrderBy(x => x).ToList();
-                }
-                else
+            if (sum == 0)
+            {
+                if (selections.Count == k)
                 {
-                    return null;
+                    //deep copy- else elments removed from final list as well
+                    FinalResult.Add(new List<int>(selections));
+                    //selections.Clear();
+                }
+                return null;
+            }
+            if (sum > 0)
+            {
+                for (int i = pointer; i < 9; i++)
+                {
+                    selections.Add(i);
+                    DecomposeRecursively(FinalResult, k, sum - i, selections, i + 1);
+                    selections.RemoveAt(selections.Count - 1);
                 }
             }
-            else
-            {
-                pointer++;
-                IList<int> res = DecomposeRecursively(originalNum, number, length, results, pointer);
-                if (res != null)
-                {
-                    FinalResult.Add(res);
-                    return DecomposeRecursively(originalNum, number, length, results, ++pointer);
-                }
+            return null;
 
-                else
-                {
-                    return null;
-                }
-                //return null;
-            }
         }
     }
 }
