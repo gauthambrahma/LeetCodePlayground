@@ -1,8 +1,11 @@
 .vs/*
 playground/mono_crash*
+playgroundTest/mono_crash*
 *.suo
 *.user
 _ReSharper.*
 playground/bin
+playgroundTest/bin
 playground/obj
+playgroungTest/obj
 packages
